@@ -1,0 +1,23 @@
+{
+  "name": "template-reveal-md-tailwindcss",
+  "description": "A template for presentations using reveal-md and Tailwind CSS",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "postcss-nested": "^4.2.1",
+    "reveal-md": "^3.5.0"
+  },
+  "scripts": {
+    "css:dev": "encore dev",
+    "css:prod": "NODE_ENV=production encore production --progress",
+    "css:watch": "encore dev --watch",
+    "start": "reveal-md slides.md --port 8000 --css build/slides.css"
+  },
+  "devDependencies": {
+    "@symfony/webpack-encore": "^0.30.2",
+    "postcss-loader": "^3.0.0",
+    "tailwindcss": "^1.4.6"
+  }
+}

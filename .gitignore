@@ -1,0 +1,12 @@
+*
+!*/
+!/.gitignore
+!/assets/**
+!/package.json
+!/postcss.config.js
+!/reveal-md.json
+!/reveal.json
+!/slides.md
+!/tailwind.config.js
+!/webpack.config.js
+.DS*
