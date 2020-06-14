@@ -68,7 +68,7 @@ Will be using a Drupal 8 application as the example, but the tools are tool and 
     </div>
 </div>
 
-~~~~~
+~~~
 
 <div class="grid grid-cols-3 gap-12">
   <div class="flex items-center">
@@ -106,14 +106,14 @@ Will be using a Drupal 8 application as the example, but the tools are tool and 
 
 ## What is Ansible?
 
-~~~~~
+~~~
 
 ## Ansible is an open-source _software provisioning_, _configuration management_, and _application-deployment_ tool.
 <!-- .element class="text-5xl text-center" -->
 
 
 
-~~~~~
+~~~
 
 ## What is Ansible?
 
@@ -138,7 +138,7 @@ Note:
 
 ## Hosts / Inventories
 
-~~~~~
+~~~
 
 <pre class="lang-ini"><code class="lang-ini" data-line-numbers data-trim>
 [webservers]
@@ -148,7 +148,7 @@ Note:
 ansible_ssh_port=22
 </code></pre>
 
-~~~~~
+~~~
 
 <pre><code data-trim data-line-numbers>
 ---
@@ -167,7 +167,7 @@ all:
 
 <h2>Commands</h2>
 
-~~~~~
+~~~
 
 <!-- .slide: class="text-center bg-black text-white" -->
 
@@ -175,7 +175,7 @@ all:
   <code class="text-5xl">ansible all -i hosts.yml -m ping</code>
 </pre>
 
-~~~~~
+~~~
 
 <!-- .slide: class="bg-black text-white" -->
 
@@ -190,7 +190,7 @@ webservers | SUCCESS => {
 ```
 <!-- .element class="text-3xl" -->
 
-~~~~~
+~~~
 
 <!-- .slide: class="text-center bg-black text-white" -->
 
@@ -203,7 +203,7 @@ webservers | SUCCESS => {
   </code>
 </pre>
 
-~~~~~
+~~~
 
 <!-- .slide: class="text-center bg-black text-white" -->
 
@@ -219,6 +219,11 @@ webservers | SUCCESS => {
 
 ~~~~~
 
+## Playbooks
+<!-- .element: class="text-center text-6xl" -->
+
+~~~
+
 <pre><code data-trim data-line-numbers>
 ---
 - hosts: webservers
@@ -233,6 +238,89 @@ webservers | SUCCESS => {
         dest: /app
 </code></pre>
 <!-- .element: class="text-3xl" -->
+
+~~~
+
+<!-- .slide: class="text-center bg-black text-white" -->
+ 
+<pre class="plain">
+  <code class="text-5xl" data-trim>
+    ansible-playbook main.yml
+    -i hosts.yml
+  </code>
+</pre>
+
+~~~~~
+
+## Roles: configuring a <br>LAMP stack
+<!-- .element: class="text-center text-6xl" -->
+
+~~~
+<pre><code data-trim data-line-numbers>
+---
+- src: geerlingguy.apache
+- src: geerlingguy.composer
+- src: geerlingguy.mysql
+- src: geerlingguy.php
+- src: geerlingguy.php-mysql
+</code></pre>
+
+~~~
+
+<!-- .slide: class="text-center bg-black text-white" -->
+
+<pre class="language-plain whitespace-pre-line wrap-word">
+  <code class="text-5xl" data-trim>
+ansible-galaxy install
+-r requirements.yml
+  </code>
+</pre>
+
+~~~
+
+<pre><code data-trim data-line-numbers>
+---
+- hosts: webservers
+
+  roles:
+    - geerlingguy.apache
+    - geerlingguy.mysql
+    - geerlingguy.php
+    - geerlingguy.php-mysql
+    - geerlingguy.composer
+</code></pre>
+
+~~~
+
+<pre><code data-trim data-line-numbers>
+---
+- hosts: webservers
+
+  vars:
+    apache_vhosts:
+      - servername: dransible
+        documentroot: /app/web
+</code></pre>
+
+~~~~~
+
+## Basic deployment
+<!-- .element: class="text-6xl text-center" -->
+
+~~~~~
+
+## Keeping secrets with <br>_Ansible Vault_
+<!-- .element: class="text-6xl text-center" -->
+
+~~~~~
+
+## Better deployments with _Ansistrano_
+<!-- .element: class="text-6xl text-center" -->
+
+~~~~~
+
+## Demo
+<!-- .element: class="text-6xl text-center" -->
 
 ~~~~~
 
