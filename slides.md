@@ -542,6 +542,21 @@ Using Composer module to install dependencies. There are other possible values.
 
 ~~~
 
+<!-- .slide: class="text-center bg-black text-white" -->
+
+<pre class="language-plain whitespace-pre-line wrap-word">
+  <code class="text-5xl" data-trim>
+ansible-playbook deploy.yml
+-i hosts.yml
+  </code>
+</pre>
+
+~~~
+
+![](assets/images/after-deploy-1.png)<!-- .element: class="border-2" -->
+
+~~~
+
 ## Disadvantages
 - Sensitive data stored in plain text
 - Single point of failure
@@ -551,6 +566,113 @@ Using Composer module to install dependencies. There are other possible values.
 
 ## Keeping secrets with <br>_Ansible Vault_
 <!-- .element: class="text-6xl text-center" -->
+
+~~~
+
+<pre><code class="language-yaml" data-trim data-line-numbers>
+---
+vars:
+  mysql_databases:
+      - name: main
+
+    mysql_users:
+      - name: user
+        password: secret
+        priv: main.*:ALL
+</code></pre>
+
+~~~
+
+<pre><code class="language-yaml" data-trim data-line-numbers>
+---
+vault_database_name: main
+vault_database_user: user
+vault_database_password: secret
+</code></pre>
+
+~~~
+
+<!-- .slide: class="text-center bg-black text-white" -->
+<pre class="language-plain whitespace-pre-line wrap-word">
+  <code class="text-5xl" data-trim>
+ansible-vault encrypt
+provision_vault.yml
+
+New Vault password: 
+Confirm New Vault password: 
+Encryption successful
+  </code>
+</pre>
+
+~~~
+
+<!-- .slide: class="bg-black text-white" -->
+<pre class="language-plain whitespace-pre-line wrap-word">
+  <code class="text-2xl" data-trim>
+$ANSIBLE_VAULT;1.1;AES256
+63656632326165643137646334343537396533656565313032363262623962393861666438393539
+6366336638316133373061306332303761383565343035330a373637373830356430353630356161
+32313831663039343733343539636365386333303862363635323138346137666166356639323338
+3264636538356634390a343766353661386666376362376439386630363664616166643364366335
+62373530393933373830306338386539626565313364643133666131613138383431353638636334
+39376437633462373934313236363662633832643138386433646230313465383337373031373137
+61353963623364393134386335373731356337366464633531656435383161656435313530363234
+37373865393839616534353165656463313961333532363537383263343364646534333032336337
+3235
+
+  </code>
+</pre>
+
+~~~
+
+<pre class="text-3xl">
+<code class="language-yaml" data-trim data-line-numbers>
+---
+database_name: '{{ vault_database_name }}'
+database_user: '{{ vault_database_user }}'
+database_password: '{{ vault_database_password }}'
+</code></pre>
+
+~~~
+
+<pre class="text-2xl">
+<code class="language-yaml" data-trim data-line-numbers>
+---
+vars_files:
+  - vars/provision_vault.yml
+  - vars/provision_vars.yml
+
+vars:
+  mysql_databases:
+    - '{{ database_name }}'
+
+  mysql_users:
+    - name: '{{ database_user }}'
+      password: '{{ database_password }}'
+      priv: '{{ database_name }}.*:ALL'
+</code></pre>
+
+~~~
+
+<!-- .slide: class="text-center bg-black text-white" -->
+<pre class="language-plain whitespace-pre-line wrap-word">
+  <code class="text-5xl" data-trim>
+ansible-playbook deploy.yml
+-i hosts.yml
+--ask-vault-pass
+  </code>
+</pre>
+
+~~~
+
+<!-- .slide: class="text-center bg-black text-white" -->
+<pre class="language-plain whitespace-pre-line wrap-word">
+  <code class="text-5xl" data-trim>
+ansible-playbook deploy.yml
+-i hosts.yml
+--vault-password-file secret.txt
+  </code>
+</pre>
 
 ~~~~~
 
