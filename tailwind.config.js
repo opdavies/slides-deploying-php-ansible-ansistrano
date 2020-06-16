@@ -10,6 +10,7 @@ module.exports = {
       fontFamily: {
         "mono": [
           'Operator Mono Book',
+          'Inconsolata',
           ...defaultTheme.fontFamily.mono
         ]
       }
