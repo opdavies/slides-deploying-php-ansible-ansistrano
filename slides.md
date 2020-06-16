@@ -914,6 +914,170 @@ Note: Each step has a 'before' and 'after' step Ansistrano allows us to add more
 
 ~~~~~
 
+## Generating settings files <br>*per deployment*
+<!-- .element: class="text-6xl text-center" -->
+
+~~~
+
+## deploy_vars.yml
+<pre class="text-xl">
+<code class="lang-yaml" data-trim data-line-numbers>
+---
+drupal_settings:
+  - drupal_root: /app/web
+    sites:
+      - name: default
+        settings:
+          databases:
+            default:
+              default:
+                driver: mysql
+                host: localhost
+                database: '{{ database_name }}'
+                username: '{{ database_user }}'
+                password: '{{ database_password }}'
+          hash_salt: '{{ hash_salt }}'
+          config_directories:
+            sync: ../config/sync
+</code></pre>
+
+~~~
+
+## templates/settings.php.j2
+<pre class="text-xl">
+<code class="php" data-trim data-line-numbers>
+{% for key, values in item.1.settings.databases.items() %}
+{% for target, values in values.items() %}
+$databases['{{ key }}']['{{ target }}'] = array(
+  'driver' => '{{ values.driver|default('mysql') }}',
+  'host' => '{{ values.host|default('localhost') }}',
+  'database' => '{{ values.database }}',
+  'username' => '{{ values.username }}',
+  'password' => '{{ values.password }}',
+);
+
+{% endfor %}
+{% endfor %}
+
+{% if item.1.settings.base_url is defined %}
+$base_url = '{{ item.1.settings.base_url }}';
+{% endif %}
+</code></pre>
+
+~~~
+
+## tasks/main.yml
+<pre class="text-lg">
+<code class="lang-yaml" data-trim data-line-numbers>
+---
+- name: Ensure directory exists
+  file:
+    state: directory
+    path: '{{ item.0.drupal_root }}/sites/{{ item.1.name|default("default") }}'
+  with_subelements:
+    - '{{ drupal_settings }}'
+    - sites
+  no_log: true
+
+- name: Create settings files
+  template:
+    src: settings.php.j2
+    dest:
+      '{{ item.0.drupal_root }}/sites/{{ item.1.name|default("default") }}/{{
+      item.1.filename|default("settings.php") }}'
+  with_subelements:
+    - '{{ drupal_settings }}'
+    - sites
+  no_log: true
+</code></pre>
+
+~~~~~
+
+## Multiple environments <br>*development, test, production*
+<!-- .element: class="text-6xl text-center" -->
+
+~~~
+
+<pre class="text-2xl">
+<code class="lang-yaml" data-trim data-line-numbers>
+---
+vars:
+  mysql_databases:
+    - name: production
+    - name: staging
+
+  mysql_users:
+    - name: production
+      password: '{{ live_db_password }}'
+      priv: '{{ live_db_name }}.*:ALL'
+
+    - name: staging
+      password: '{{ staging_db_password }}'
+      priv: staging.*:ALL
+</code></pre>
+
+~~~
+
+<pre class="text-2xl">
+<code class="lang-yaml" data-trim data-line-numbers>
+production:
+  children:
+    hosts:
+      webservers:
+        ansible_ssh_host: 192.168.33.10
+        ansible_ssh_port: 22
+
+        project_deploy_path: /app
+        git_branch: production
+
+        drupal_hash_salt: '{{ vault_drupal_hash_salt }}'
+        drupal_install: false
+
+        drupal_settings:
+          # ...
+</code></pre>
+
+~~~
+
+<pre class="text-2xl">
+<code class="lang-yaml" data-trim data-line-numbers>
+staging:
+  children:
+    hosts:
+      webservers:
+        ansible_ssh_host: 192.168.33.10
+        ansible_ssh_port: 22
+
+        project_deploy_path: /app-staging
+        git_branch: staging
+
+        drupal_hash_salt: '{{ vault_drupal_hash_salt }}'
+        drupal_install: true
+
+        drupal_settings:
+          # ...
+</code></pre>
+
+~~~
+
+<!-- .slide: class="bg-black text-center text-white" -->
+<pre class="text-5xl"><code class="language-plain">
+ansible-playbook deploy.yml
+-i hosts.yml
+--limit staging
+</code></pre>
+
+~~~
+
+<!-- .slide: class="bg-black text-center text-white" -->
+<pre class="text-5xl"><code class="language-plain">
+ansible-playbook deploy.yml
+-i hosts.yml
+--limit production
+</code></pre>
+
+~~~~~
+
 ## Demo
 <!-- .element: class="text-6xl text-center" -->
 
