@@ -911,6 +911,11 @@ Note: Each step has a 'before' and 'after' step Ansistrano allows us to add more
 
 ~~~~~
 
+## Demo
+<!-- .element: class="text-6xl text-center" -->
+
+~~~~~
+
 ## Generating settings files <br>*per deployment*
 <!-- .element: class="text-6xl text-center" -->
 
@@ -1072,11 +1077,6 @@ ansible-playbook deploy.yml
 -i hosts.yml
 --limit production
 </code></pre>
-
-~~~~~
-
-## Demo
-<!-- .element: class="text-6xl text-center" -->
 
 ~~~~~
 
