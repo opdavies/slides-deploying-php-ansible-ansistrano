@@ -244,7 +244,7 @@ More consistency across the project, easier to copy variables from other places 
 
 ~~~
 
-<!-- .slide: class="text-center bg-black text-white" -->
+<!-- .slide: class="text-center" -->
 
 <pre class="plain">
   <code class="text-5xl">ansible all -i hosts.yml -m ping</code>
@@ -255,8 +255,6 @@ Note: Single ad-hoc command.
 -m = module
 
 ~~~
-
-<!-- .slide: class="bg-black text-white" -->
 
 ```plain
 webservers | SUCCESS => {
@@ -271,7 +269,7 @@ webservers | SUCCESS => {
 
 ~~~
 
-<!-- .slide: class="text-center bg-black text-white" -->
+<!-- .slide: class="text-center" -->
 
 <pre class="language-plain whitespace-pre-line">
   <code class="text-5xl" data-trim>
@@ -288,7 +286,7 @@ Note: Update a codebase using "git pull"
 
 ~~~
 
-<!-- .slide: class="text-center bg-black text-white" -->
+<!-- .slide: class="text-center" -->
 
 <pre class="language-plain whitespace-pre-line wrap-word">
   <code class="text-5xl" data-trim>
@@ -331,7 +329,7 @@ Can add and use variables
 
 ~~~
 
-<!-- .slide: class="text-center bg-black text-white" -->
+<!-- .slide: class="text-center" -->
  
 <pre class="plain">
   <code class="text-5xl" data-trim>
@@ -367,7 +365,7 @@ Equivilent to composer.json/Packagist in PHP
 
 ~~~
 
-<!-- .slide: class="text-center bg-black text-white" -->
+<!-- .slide: class="text-center" -->
 
 <pre class="language-plain whitespace-pre-line wrap-word">
   <code class="text-5xl" data-trim>
@@ -438,7 +436,7 @@ Note: configuring MySQL databases and users.
 
 ~~~
 
-<!-- .slide: class="text-center bg-black text-white" -->
+<!-- .slide: class="text-center" -->
 
 <pre class="language-plain whitespace-pre-line wrap-word">
   <code class="text-5xl" data-trim>
@@ -448,8 +446,6 @@ ansible-playbook provision.yml
 </pre>
 
 ~~~
-
-<!-- .slide: class="bg-black text-white" -->
 
 <pre class="text-base leading-relaxed"><code class="language-plain">
 PLAY [Provision the webserver machines] ********************************************************************************
@@ -474,7 +470,7 @@ changed: [webservers]
 </code></pre>
 ~~~
 
-<!-- .slide: class="bg-black text-white" -->
+
 
 <pre class="text-base leading-snug"><code class="language-plain">
 TASK [geerlingguy.composer : Ensure composer directory exists.] ********************************************************
@@ -547,7 +543,7 @@ Using Composer module to install dependencies. There are other possible values.
 
 ~~~
 
-<!-- .slide: class="text-center bg-black text-white" -->
+<!-- .slide: class="text-center" -->
 
 <pre class="language-plain whitespace-pre-line wrap-word">
   <code class="text-5xl" data-trim>
@@ -597,7 +593,7 @@ vault_database_password: secret
 
 ~~~
 
-<!-- .slide: class="text-center bg-black text-white" -->
+<!-- .slide: class="text-center" -->
 <pre class="language-plain whitespace-pre-line wrap-word">
   <code class="text-5xl" data-trim>
 ansible-vault encrypt
@@ -611,7 +607,7 @@ Encryption successful
 
 ~~~
 
-<!-- .slide: class="bg-black text-white" -->
+
 <pre class="language-plain whitespace-pre-line wrap-word">
   <code class="text-2xl" data-trim>
 $ANSIBLE_VAULT;1.1;AES256
@@ -660,7 +656,7 @@ database_password: '{{ vault_database_password }}'
 
 ~~~
 
-<!-- .slide: class="text-center bg-black text-white" -->
+<!-- .slide: class="text-center" -->
 <pre class="language-plain whitespace-pre-line wrap-word">
   <code class="text-5xl" data-trim>
 ansible-playbook deploy.yml
@@ -671,7 +667,7 @@ ansible-playbook deploy.yml
 
 ~~~
 
-<!-- .slide: class="text-center bg-black text-white" -->
+<!-- .slide: class="text-center" -->
 <pre class="language-plain whitespace-pre-line wrap-word">
   <code class="text-5xl" data-trim>
 ansible-playbook deploy.yml
@@ -741,7 +737,7 @@ Note: add to roles within the playbook
 
 ~~~
 
-<!-- .slide: class="bg-black text-white" -->
+
 <pre class="text-base"><code class="language-plain">
 PLAY [webservers] ******************************************************************************************************
 
@@ -768,7 +764,7 @@ ok: [webservers] => (item=web/sites/default/files)
 
 ~~~
 
-<!-- .slide: class="bg-black text-white" -->
+
 <pre class="text-base"><code class="language-plain">
 TASK [ansistrano.deploy : Update file permissions] *********************************************************************
 changed: [webservers]
@@ -795,7 +791,7 @@ webservers                 : ok=33   changed=14   unreachable=0    failed=0    s
 
 ~~~
 
-<!-- .slide: class="bg-black text-white" -->
+
 <pre class="text-2xl"><code class="language-plain">
 vagrant@dransible:/app$ ls -l
 total 8
@@ -807,7 +803,7 @@ drwxr-xr-x 4 4096 Jul 19 00:00 shared
 
 ~~~
 
-<!-- .slide: class="bg-black text-white" -->
+
 <pre class="text-2xl"><code class="language-plain">
 vagrant@dransible:/app/releases$ ls -l
 total 20
@@ -836,7 +832,8 @@ drwxr-xr-x  9 4096 Jul 22 20:30 20190722203038Z
 
 ~~~
 
-<!-- .slide: class="bg-black text-center text-white" -->
+<!-- .slide: class="text-center" -->
+
 <pre class="text-5xl"><code class="language-plain">
 ansible-playbook rollback.yml
 -i hosts.yml
@@ -1060,7 +1057,7 @@ staging:
 
 ~~~
 
-<!-- .slide: class="bg-black text-center text-white" -->
+<!-- .slide: class="text-center" -->
 <pre class="text-5xl"><code class="language-plain">
 ansible-playbook deploy.yml
 -i hosts.yml
@@ -1069,7 +1066,7 @@ ansible-playbook deploy.yml
 
 ~~~
 
-<!-- .slide: class="bg-black text-center text-white" -->
+<!-- .slide: class="text-center" -->
 <pre class="text-5xl"><code class="language-plain">
 ansible-playbook deploy.yml
 -i hosts.yml
