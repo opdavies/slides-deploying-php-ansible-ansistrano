@@ -3,7 +3,7 @@ highlightTheme: a11y-light
 revealOptions:
   backgroundTransition: 'none'
   transition: 'none'
-theme: none
+theme: theme/slides.css
 title: Deploying PHP applications with Ansible and Ansistrano
 ---
 
