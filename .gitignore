@@ -2,6 +2,7 @@
 !*/
 !/.gitignore
 !/assets/**
+!/Makefile
 !/package.json
 !/postcss.config.js
 !/reveal-md.json
