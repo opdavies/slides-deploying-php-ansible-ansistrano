@@ -2,6 +2,7 @@
 !*/
 !/.gitignore
 !/assets/**
+!/favicon.ico
 !/Makefile
 !/package.json
 !/postcss.config.js
